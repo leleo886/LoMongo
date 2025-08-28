@@ -1,0 +1,31 @@
+{
+  "name": "lomongo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-log": "^2.6.0",
+    "@tauri-apps/plugin-opener": "^2.5.0",
+    "@tauri-apps/plugin-os": "^2.3.1",
+    "@tauri-apps/plugin-store": "^2.3.0",
+    "uuid": "^11.1.0",
+    "vue": "^3.5.13",
+    "vue-i18n": "^11.1.11",
+    "vue-json-pretty": "^2.5.0",
+    "vue-router": "^4.5.1",
+    "vuetify": "^3.9.5"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.3"
+  }
+}

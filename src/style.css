@@ -1,0 +1,12 @@
+/* 设置滚动条样式 */
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--main_text_color, #b4b4b4);
+	border-radius: 8px;
+	height: 20%;
+}
+
