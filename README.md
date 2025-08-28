@@ -25,6 +25,10 @@ LoMongo, an Android client for MongoDB service data browsing and retrieval, usin
   </tr>
 </table>
 
+## Release
+
+[package](https://github.com/leleo886/LoMongo/releases)
+
 ## Note
 
 You can browse and query the MongoDB database away from your computer or server. If it's for learning on a local mobile device, then pairing it with [Termux](https://github.com/termux) should have a different effect.

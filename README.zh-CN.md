@@ -14,6 +14,7 @@ LoMongo，一个支持 MongoDB 服务数据浏览与检索的 Android 客户端�
 - 执行自定义查询
 
 ## 界面
+
 <table>
   <tr>
     <td><img src="./app-11.png" height="350"></td>
@@ -23,6 +24,10 @@ LoMongo，一个支持 MongoDB 服务数据浏览与检索的 Android 客户端�
     <td><img src="./app-33.png" height="350"></td>
   </tr>
 </table>
+
+## Release
+
+[安装包](https://github.com/leleo886/LoMongo/releases)
 
 ## 说明
 
