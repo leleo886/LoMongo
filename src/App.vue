@@ -3,21 +3,14 @@
 		<v-system-bar color="primary"></v-system-bar>
 		<v-app-bar color="primary">
 			<template v-slot:prepend>
-				<v-btn 
-					icon="mdi-home" 
-					:to="{ name: 'Home' }">
-				</v-btn>
+				<v-btn icon="mdi-home" :to="{ name: 'Home' }"></v-btn>
 			</template>
 			<v-app-bar-title >{{ appName }}</v-app-bar-title>
 	
 			<template v-slot:append>
 			<v-menu>
 				<template v-slot:activator="{ props }">
-					<v-btn
-					v-bind="props"
-					icon="mdi-dots-vertical"
-					>
-					</v-btn>
+					<v-btn v-bind="props" icon="mdi-dots-vertical"></v-btn>
 				</template>
 				<v-list>
 					<v-list-item
@@ -58,11 +51,7 @@
 			{{ snackbarText }}
 		</v-snackbar>
 
-		<v-dialog
-			width="auto"
-			scrollable
-			v-model="dialog"
-		>
+		<v-dialog width="auto" scrollable v-model="dialog">
 
 		<template v-slot:default="{ isActive }">
 			<v-card>
@@ -100,8 +89,6 @@
 import { getName } from '@tauri-apps/api/app';
 import { locale, type } from '@tauri-apps/plugin-os';
 import { load } from '@tauri-apps/plugin-store';
-import { invoke } from '@tauri-apps/api/core';
-
 
 export default {
 	name: 'App',
@@ -135,7 +122,6 @@ export default {
 		getName().then((name) => {
 			this.appName = name;
 		});
-
 		const store = await load('store.json', { autoSave: false });
 		const val = await store.get('lang');
 		if (val) {
@@ -147,7 +133,6 @@ export default {
 				this.$i18n.locale = lang;
 			})
 		}
-		
 	},
 	methods: {
 		showSnackbar( snackbarText, snackbarColor, snackbarTimeout) {

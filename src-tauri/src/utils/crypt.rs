@@ -8,6 +8,7 @@ use serde_json::json;
 use tauri::AppHandle;
 
 // 加密函数
+/// 使用 AES-256-GCM 算法对明文进行加密，并将加密后的数据（盐、nonce 和密文）存储到文件中。
 pub fn encrypt(
     password: String,
     plaintext: String,
@@ -52,7 +53,12 @@ pub fn encrypt(
 }
 
 // 解密函数
-pub fn decrypt(skey: &str, app_handle: AppHandle, filename: &str) -> anyhow::Result<String> {
+/// 从文件中读取加密数据（盐、nonce 和密文），并使用密码解密为明文。
+pub fn decrypt(
+	skey: &str,
+	app_handle: AppHandle, 
+	filename: &str
+) -> anyhow::Result<String> {
     let encrypted_data = io_op::get_value(skey, app_handle, filename)?;
     if encrypted_data.is_empty() {
         return Ok("".to_string());

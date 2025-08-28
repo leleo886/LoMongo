@@ -9,7 +9,6 @@ use std::sync::{Arc, Mutex};
 use tauri::{AppHandle, Emitter, Listener};
 use log::{error, info, warn};
 
-// 共享的数据结构
 #[derive(Default)]
 struct KeyCheckResult {
     fingerprint: String,
@@ -17,11 +16,12 @@ struct KeyCheckResult {
     openssh: String,
 }
 
+// 共享的数据结构，用于存储服务器密钥的检查结果
 struct ServerKeyCheck {
     key_data: Arc<Mutex<KeyCheckResult>>,
 }
 
-// 事件发送数据结构
+// 事件发送数据结构，用于首次密钥检查时发送给前台
 #[derive(serde::Serialize, Clone)]
 struct FirstKeyCheckData {
     alg: String,
@@ -48,6 +48,9 @@ impl Handler for ServerKeyCheck {
     }
 }
 
+/// 执行服务器密钥检查的主函数
+/// - `app_handle`: Tauri 应用句柄
+/// 返回：密钥的 OpenSSH 格式或错误信息
 pub async fn key_check(
     id: &str,
     host: &str,

@@ -3,7 +3,7 @@ use mongodb::bson::{oid::ObjectId, Bson, DateTime, Decimal128, Document};
 use regex::Regex;
 use std::sync::LazyLock;
 
-static MONGO_SPECIAL_REGEX: LazyLock<Regex> = LazyLock::new(|| {
+pub static MONGO_SPECIAL_REGEX: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(
         r##"(?x)
         (ISODate|ObjectId|NumberDecimal)  # 方法名
@@ -25,7 +25,7 @@ pub fn convert_document(doc: Document) -> Document {
 }
 
 // 转换单个值，处理ISODate字符串
-fn convert_value(value: Bson) -> Bson {
+pub fn convert_value(value: Bson) -> Bson {
     match value {
         // 如果是嵌套文档，递归处理
         Bson::Document(doc) => Bson::Document(convert_document(doc)),
@@ -67,7 +67,10 @@ fn convert_value(value: Bson) -> Bson {
 }
 
 // 解析预处理后的格式
-fn parse_special_wrapper<'a>(s: &'a str, method_name: &str) -> Option<&'a str> {
+pub fn parse_special_wrapper<'a>(
+	s: &'a str, 
+	method_name: &str
+) -> Option<&'a str> {
     let prefix = format!("{}(", method_name);
     if s.starts_with(&prefix) && s.ends_with(')') {
         // 提取方法名( 和 ) 之间的内容

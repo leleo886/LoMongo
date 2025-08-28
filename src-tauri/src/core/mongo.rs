@@ -18,6 +18,7 @@ use std::collections::HashMap;
 use tauri::{AppHandle, State};
 use tokio::sync::RwLock;
 
+// mongodb 连接配置
 #[derive(Default)]
 pub struct MongoData {
     id: String,
@@ -32,7 +33,7 @@ pub struct MongoData {
     db_name: String,
 }
 
-// 查询数据
+// 查询结果返回
 #[derive(Serialize, Deserialize)]
 pub struct PaginatedResult {
     documents: Vec<Value>,
@@ -77,7 +78,13 @@ impl MongoData {
     }
 }
 
-pub fn format_uri(mongo_data: &MongoData, app_handle: AppHandle) -> anyhow::Result<String> {
+/// 格式化 MongoDB 连接 URI
+/// - 如果认证方式是 `userpass`，则从加密文件中获取密码并拼接 URI
+/// - 否则直接拼接 URI
+pub fn format_uri(
+	mongo_data: &MongoData, 
+	app_handle: AppHandle
+) -> anyhow::Result<String> {
     if mongo_data.mongo_auth_method == "userpass" {
         let decrypt_server_str = decrypt(&mongo_data.id, app_handle, MONGO_DATA_FILE)?;
         let decrypt_server: Value = serde_json::from_str(&decrypt_server_str)?;
@@ -100,8 +107,10 @@ pub fn format_uri(mongo_data: &MongoData, app_handle: AppHandle) -> anyhow::Resu
     ))
 }
 
+/// 获取 MongoDB 连接
+/// - 先从连接池中查找是否存在对应 ID 的连接
+/// - 如果不存在，则根据连接类型（SSH 或直接连接）创建新连接并存入连接池
 async fn get_mongodb_connection<'a>(
-    // 添加显式生命周期标注
     mongo_data: &MongoData,
     uri: &str,
     connections: &'a MongoConnections,
@@ -165,6 +174,7 @@ async fn get_mongodb_connection<'a>(
     Ok((client, db))
 }
 
+/// 连接 MongoDB 服务器并获取所有集合的统计信息
 pub async fn connect_server(
     mongo_data: &MongoData,
     connections: State<'_, MongoConnections>, // 显式指定生命周期
@@ -215,6 +225,8 @@ pub async fn connect_server(
     Ok(all_stats)
 }
 
+/// 查询 MongoDB 集合的分页数据
+/// - 支持分页、查询条件解析和结果格式化
 pub async fn mongodb_collection(
     mongo_data: &MongoData,
     collection_name: String,
@@ -277,6 +289,8 @@ pub async fn mongodb_collection(
     })
 }
 
+/// 清理指定 ID 的 MongoDB 连接
+/// - 从连接池中移除连接，并关闭 SSH 隧道（如果存在）
 pub async fn clear_connection(
     id: String,
     connections: State<'_, MongoConnections>, //manage自动注入，'_匿名生命周期自动推断
@@ -292,14 +306,3 @@ pub async fn clear_connection(
     Ok(())
 }
 
-
-#[tokio::test]
-async fn test_mongodb() {
-	let uri = "mongodb://url";
-	let mut client_options = ClientOptions::parse(uri).await.unwrap();
-	client_options.server_selection_timeout = Some(std::time::Duration::from_secs(10)); // 服务器连接超时时间
-	let client = Client::with_options(client_options).unwrap();
-	let db = client.database("sample_mflix");
-	let collections = db.list_collection_names().await.unwrap();
-	println!("collections: {:?}", collections);
-}

@@ -61,7 +61,11 @@ impl Drop for SshTunnelManager {
     }
 }
 
-// SSH隧道启动函数
+/// 启动SSH隧道
+/// 1. 建立SSH连接到跳板机
+/// 2. 绑定本地端口
+/// 3. 循环接受本地连接并转发到远程MongoDB
+/// 4. 监听终止信号，清理资源
 async fn start_ssh_tunnel(
     ssh_host: String,
     ssh_port: u16,
@@ -187,6 +191,11 @@ async fn start_ssh_tunnel(
     }
 }
 
+/// 通过SSH隧道连接到MongoDB
+/// 1. 解密或获取SSH密钥
+/// 2. 启动SSH隧道
+/// 3. 构建MongoDB连接字符串并测试连接
+/// 4. 返回MongoDB客户端、数据库和隧道管理器
 pub async fn ssh_tunnel_to_mongodb(
     id: &str,
     mongo_auth_method: &str,

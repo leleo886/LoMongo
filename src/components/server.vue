@@ -117,7 +117,6 @@
       </v-card>
     </div>
 
-
     <!-- 表单对话框  -->
     <v-dialog
 		v-model="dialog"
@@ -341,9 +340,6 @@
 					></v-text-field>
 				</v-tabs-window-item>
 			</v-tabs-window>
-
-        
-
           </v-form>
         </v-card-text>
 
@@ -371,11 +367,7 @@
     </v-dialog>
 
 	<!-- 删除对话框 -->
-    <v-dialog
-      v-model="removeDialog"
-      max-width="400"
-      persistent
-    >
+    <v-dialog v-model="removeDialog" max-width="400" persistent>
       <v-card
         prepend-icon="mdi-lan-disconnect"
         text=""
@@ -425,15 +417,8 @@
     </v-dialog>
 
 	<!-- 警告对话框 -->
-	<v-dialog
-      v-model="WNDialog"
-      width="auto"
-    >
-      <v-card
-        max-width="400"
-        :text="$t('server.KeyCheckFailed')"
-		
-      >
+	<v-dialog v-model="WNDialog" width="auto">
+      <v-card max-width="400" :text="$t('server.KeyCheckFailed')">
 	  	<template v-slot:title>
 			<span class="font-weight-black" style="color: #FFB300">Warning</span>
 		</template>
@@ -713,7 +698,6 @@ export default {
 			this.loadingStates[index] = false;
 		})
     },
-
   }
 }
 </script>

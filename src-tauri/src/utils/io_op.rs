@@ -4,7 +4,13 @@ use std::fs::{self, File};
 use tauri::AppHandle;
 use tauri::Manager;
 
-pub fn store_value(new_data: Value, app_handle: AppHandle, filename: &str) -> anyhow::Result<()> {
+/// 将新的 JSON 数据存储到指定文件中，如果文件已存在，则合并数据。
+/// `app_handle`: Tauri 的 `AppHandle`，用于获取应用数据目录路径。
+pub fn store_value(
+	new_data: Value, 
+	app_handle: AppHandle, 
+	filename: &str
+) -> anyhow::Result<()> {
     let data_path = app_handle.path().app_data_dir()?.join(filename);
     let combined_data: Value = if fs::metadata(&data_path).is_ok() {
         // 文件存在：读取并合并数据
@@ -29,7 +35,12 @@ pub fn store_value(new_data: Value, app_handle: AppHandle, filename: &str) -> an
     Ok(())
 }
 
-pub fn get_value(skey: &str, app_handle: AppHandle, filename: &str) -> anyhow::Result<String> {
+/// 从指定文件中获取指定键的值。
+pub fn get_value(
+	skey: &str, 
+	app_handle: AppHandle, 
+	filename: &str
+) -> anyhow::Result<String> {
     let data_path = app_handle.path().app_data_dir()?.join(filename);
 
     // 如果文件不存在，创建默认格式文件
@@ -63,6 +74,7 @@ pub fn get_value(skey: &str, app_handle: AppHandle, filename: &str) -> anyhow::R
     }
 }
 
+/// 从指定文件中删除指定键的值。
 pub fn delete_value(skey: &str, app_handle: AppHandle, filename: &str) -> anyhow::Result<()> {
     let data_path = app_handle
         .path()

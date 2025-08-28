@@ -3,10 +3,7 @@
     <!-- 应用图标和标题区域 -->
     <v-card-text class="text-center">
       <v-avatar class="about-avatar mb-4" size="64">
-        <v-img 
-          src="/icon.png"
-          alt="Logo"
-        ></v-img>
+        <v-img src="/icon.png" alt="Logo"></v-img>
       </v-avatar>
       
       <h1 class="text-h4 font-bold mb-1">{{ appName }}</h1>

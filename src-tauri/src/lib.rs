@@ -2,14 +2,17 @@ pub mod api;
 pub mod core;
 pub mod error;
 pub mod utils;
+pub mod test;
 use api::api_mongo::{
     mongo_clear_connection, mongo_collection, mongo_connect_server, mongo_data_encrypt,
     mongo_delete_encrypt_data,
 };
 use core::mongo::MongoConnections;
 
+
 pub static MONGO_DATA_FILE: &str = "data.json";
 pub static SSH_KEY_FILE: &str = "key.json";
+
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
